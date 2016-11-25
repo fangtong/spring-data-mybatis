@@ -4,6 +4,7 @@ import me.jclagache.data.mybatis.repository.MyBatisRepository;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.SqlSessionTemplate;
+import org.mybatis.spring.annotation.MapperScan;
 import org.mybatis.spring.mapper.MapperScannerConfigurer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -35,21 +36,18 @@ import java.io.IOException;
 public class InfrastructureConfig {
 
 	@Bean
-	public MapperScannerConfigurer mapperScannerConfigurer(@Value("${mybatis.mapper.base.package:*}") String basePackage) {
-		MapperScannerConfigurer mapperScannerConfigurer = new MapperScannerConfigurer();
-		mapperScannerConfigurer.setMarkerInterface(MyBatisRepository.class);
-		mapperScannerConfigurer.setSqlSessionTemplateBeanName("sqlSessionTemplate");
-		mapperScannerConfigurer.setBasePackage(basePackage);
-		return mapperScannerConfigurer;
-	}
-
-	@Bean
 	@Autowired
-	public SqlSessionFactory sqlSessionFactory(DataSource dataSource, ResourceLoader resourceLoader, @Value("${mybatis.aliases.package:}") String aliases) throws Exception {
+	public SqlSessionFactory sqlSessionFactory(DataSource dataSource, ResourceLoader resourceLoader,
+			@Value("${mybatis.mapperLocations:}") String mapperLocations,
+			@Value("${mybatis.typeAliasesPackage:}") String typeAliasesPackage,
+			@Value("${mybatis.configLocation:}") String configLocation) throws Exception {
 		SqlSessionFactoryBean sessionFactory = new SqlSessionFactoryBean();
 		sessionFactory.setDataSource(dataSource);
-		sessionFactory.setTypeAliasesPackage(aliases);
-		sessionFactory.setMapperLocations(getResources(resourceLoader, "classpath*:mapper/**/*.xml"));
+		sessionFactory.setMapperLocations(getResources(resourceLoader,mapperLocations));
+		sessionFactory.setTypeAliasesPackage(typeAliasesPackage);
+		if(!configLocation.isEmpty()){
+			sessionFactory.setConfigLocation(getResource(resourceLoader,configLocation));
+		}
 		return sessionFactory.getObject();
 	}
 
@@ -76,6 +74,12 @@ public class InfrastructureConfig {
 		ResourcePatternResolver resourceResolver = ResourcePatternUtils
 				.getResourcePatternResolver(resourceLoader);
 		return resourceResolver.getResources(packagePath);
+	}
+	
+	private Resource getResource(ResourceLoader resourceLoader, String packagePath) throws IOException {
+		ResourcePatternResolver resourceResolver = ResourcePatternUtils
+				.getResourcePatternResolver(resourceLoader);
+		return resourceResolver.getResource(packagePath);
 	}
 
 }

@@ -1,0 +1,7 @@
+mybatis:
+  mapper:
+    base:
+      #package: me.jclagache.data.mybatis.repository
+  mapperLocations: classpath:mapper/*/*.xml
+  typeAliasesPackage: me.jclagache.data.mybatis.domain
+#  configLocation: classpath:mybatis-configuration.xml

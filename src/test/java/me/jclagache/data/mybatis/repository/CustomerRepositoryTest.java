@@ -2,6 +2,7 @@ package me.jclagache.data.mybatis.repository;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import me.jclagache.data.mybatis.ApplicationConfig;
@@ -16,6 +17,7 @@ import static org.junit.Assert.assertTrue;
 
 @SpringApplicationConfiguration(classes = ApplicationConfig.class)
 @RunWith(SpringJUnit4ClassRunner.class)
+@MapperScan(basePackages={"me.jclagache.data.mybatis.repository"},markerInterface=MyBatisRepository.class)
 @Transactional
 public class CustomerRepositoryTest {
 

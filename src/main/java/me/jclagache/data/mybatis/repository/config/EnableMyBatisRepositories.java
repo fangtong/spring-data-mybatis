@@ -18,6 +18,7 @@ import java.lang.annotation.*;
 @Documented
 @Inherited
 @Import({MyBatisRepositoriesRegistrar.class, InfrastructureConfig.class})
+//@Import(MyBatisRepositoriesRegistrar.class)
 public @interface EnableMyBatisRepositories {
 	/**
 	 * Alias for the {@link #basePackages()} attribute. Allows for more concise

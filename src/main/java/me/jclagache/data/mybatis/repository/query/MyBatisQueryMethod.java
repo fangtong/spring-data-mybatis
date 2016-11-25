@@ -1,5 +1,6 @@
 package me.jclagache.data.mybatis.repository.query;
 
+import org.springframework.data.projection.ProjectionFactory;
 import org.springframework.data.repository.core.RepositoryMetadata;
 import org.springframework.data.repository.query.QueryMethod;
 import org.springframework.util.Assert;
@@ -11,8 +12,8 @@ public class MyBatisQueryMethod extends QueryMethod {
 	private final Class<?> mapperInterface;
 	private final Method method;
 
-	public MyBatisQueryMethod(Method method, RepositoryMetadata metadata) {
-		super(method, metadata);
+	public MyBatisQueryMethod(Method method, RepositoryMetadata metadata,ProjectionFactory projectionFactory) {
+		super(method, metadata,projectionFactory);
 		Assert.notNull(method, "Method must not be null!");
 		Assert.notNull(metadata, "RepositoryMetadata must not be null!");
 		this.method = method;

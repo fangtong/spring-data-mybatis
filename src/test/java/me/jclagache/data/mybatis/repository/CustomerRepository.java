@@ -1,5 +1,6 @@
 package me.jclagache.data.mybatis.repository;
 
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 import me.jclagache.data.mybatis.domain.Customer;
 
@@ -9,6 +10,7 @@ import java.util.List;
  * Mapping and queries defined in mapper/Customer/Customer.xml
  * except me.jclagache.data.mybatis.repository.CustomerRepository#findByLastName(java.lang.String)
  */
+@Mapper
 public interface CustomerRepository extends MyBatisRepository<Customer, Integer> {
 
 	List<Customer> findByFirstName(String firstName);
