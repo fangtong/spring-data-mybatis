@@ -20,7 +20,6 @@ public class MyBatisRepositoriesRegistrar extends RepositoryBeanDefinitionRegist
 
 	@Override
 	protected RepositoryConfigurationExtension getExtension() {
-		new persistente
 		return new MyBatisRepositoryConfigExtension();
 	}
 
